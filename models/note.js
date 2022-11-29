@@ -4,17 +4,13 @@ const sequelize = require("../sequelize")
 const Note = sequelize.define(
     "Note",
     {
-        id : {
+        noteId : {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
         description: {
             type: DataTypes.STRING
-        },
-        isCreated : {
-            type: DataTypes.BOOLEAN,
-            allowNull: false
         },
         subject: {
             type: DataTypes.STRING
@@ -24,11 +20,14 @@ const Note = sequelize.define(
         }, 
         tag: {
             type: DataTypes.STRING
+        },
+        studentId: {
+            type: DataTypes.INTEGER
         }
     },
     {
         tableName: "Notes"
     }
-)
+);
 
 module.exports=Note;
