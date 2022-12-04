@@ -20,9 +20,6 @@ const Note = sequelize.define(
         }, 
         tag: {
             type: DataTypes.STRING
-        },
-        studentId: {
-            type: DataTypes.INTEGER
         }
     },
     {
