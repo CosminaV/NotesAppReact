@@ -20,9 +20,6 @@ const Attachment = sequelize.define(
         content: {
             type: DataTypes.BLOB
         },
-        noteId: {
-            type: DataTypes.INTEGER
-        }
     },
     {
         tableName: "Attachments"
