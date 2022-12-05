@@ -1,7 +1,13 @@
 let express = require('express');
 const {Op} = require("sequelize");
+const Attachment = require('../models/attachment');
 let router = express.Router();
 const Note = require("../models/note");
+const Student = require("../models/student");
+const Group = require("../models/group");
+
+Note.hasMany(Attachment);
+Note.belongsToMany(Group, {through:"NoteGroups"});
 
 const checkID = (req, res, next) => {
     if(req.params.id && isNaN(req.params.id)){
@@ -49,6 +55,44 @@ router.route('/addNote').post(async (req, res)=>{
         res.status(500).json(error);
     }
 });
+
+//adauga o notita la un student
+router.route('/students/:studentId/note').post(async(req, res)=>{
+    try{
+        const student = await Student.findByPk(req.params.studentId);
+        if (student){
+            let newNote = await Note.create(req.body);
+            newNote.StudentId = student.id;
+            await newNote.save();
+            res.status(200).json({"message":"note was created!"})
+        }
+        else{
+            res.status(400).json({error: `Student with id ${req.params.studentId} not found`})
+        }
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json(error);
+    }
+})
+
+//obtine notitele unui student
+router.route('/students/:studentId/notes').get(async(req, res)=>{
+    try{
+        const student = await Student.findByPk(req.params.studentId,{
+            include: [Note]
+        });
+        if (student){
+            res.status(200).json(student.Notes) // Tasks tot cu T, tabela e cu T mare si creeaza automat Tasks tot cu T
+        }
+        else{
+            res.status(400).json({error: `Student with id ${req.params.studentId} not found`})
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
 
 //update la o notita
 router.route('/modifyNote/:id').put(async (req,res)=>{

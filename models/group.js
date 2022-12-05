@@ -4,7 +4,7 @@ const sequelize = require("../sequelize")
 const Group = sequelize.define(
     "Group",
     {
-        groupId: {
+        id: {
             type: DataTypes.INTEGER, 
             primaryKey: true,
             autoIncrement: true

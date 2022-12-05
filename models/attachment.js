@@ -9,13 +9,10 @@ const ATTACHMENT_TYPE = Object.freeze({
 const Attachment = sequelize.define(
     "Attachment",
     {
-        attachmentId: {
+        id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
-        },
-        attachmentType: {
-            type: DataTypes.ENUM.ATTACHMENT_TYPE
         },
         content: {
             type: DataTypes.BLOB

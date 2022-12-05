@@ -1,24 +1,32 @@
 let express = require('express');
 let bodyParser = require('body-parser');
 let cors = require('cors');
-const router = require("./routes/notes");
+const routerNote = require('./routes/notes');
+const routerStudent = require('./routes/students');
+const routerAttachment = require('./routes/attachments');
+const routerGroup = require('./routes/groups');
 
 require("dotenv").config();
 
 const sequelize = require("sequelize");
 require("./models/note");
+require("./models/student");
+require("./models/attachment");
+require("./models/group");
 
 let app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
-app.use('/api', router);
+app.use('/api', routerNote);
+app.use('/api', routerStudent);
+app.use('/api', routerAttachment);
+app.use('/api', routerGroup);
 
 app.use((err, req, res, next) => {
     res.status(500).json({"ERROR":"General error"})
 })
-
 
 app.set("port", process.env.PORT || 8080) 
 
