@@ -243,3 +243,18 @@ textarea:focus {
   color: black;
   cursor: pointer;
 }
+
+.note.edit {
+  background-color: #eff89c;
+}
+
+.note.edit .description textarea {
+  background-color: #eff89c;
+  border-style: dashed;
+  border-color: rgba(0,0,0,0.2);
+}
+
+.note.edit .note-footer textarea{
+  background-color: #c3ca83;
+  border-style: double;
+}

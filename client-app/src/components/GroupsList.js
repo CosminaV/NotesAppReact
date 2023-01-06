@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 const SERVER = 'http://localhost:8080/api';
 
 function GroupsList(props){
-    const {trigger, setTrigger} = props;
+    const {trigger, setTrigger, studentId} = props;
     const {id} = useParams();
     const [groups, setGroups] = useState([]);
     const navigate = useNavigate();
@@ -25,7 +25,11 @@ function GroupsList(props){
         getAllGroups()
     }, [])
 
-    let grupId = allGroups.length;
+    let grupId ;
+    for(let g of allGroups){
+        grupId=g.id;
+    }
+    console.log(grupId++);
 
     const getMyGroups = async () => {
         const response = await fetch(`${SERVER}/students/${id}/groups`);
@@ -54,21 +58,19 @@ function GroupsList(props){
         getMyGroups();
     }
 
+    useEffect( () => {
+        getMyGroups()
+    }, [])
+
     const addStudentToGroup = async (groupId) => {
         await fetch(`${SERVER}/groups/${groupId}/students/${id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            },
+            }
         })
-        getMyGroups()
+        getMyGroups();
     }
-
-    useEffect( () => {
-        getMyGroups()
-    }, [])
-
-
 
     return (trigger) ? (
         <div>
@@ -76,7 +78,7 @@ function GroupsList(props){
                 <div className="popup-inner">
                     <div className="groups-list-header">
                         <input type='text' placeholder="Create new group" readOnly={true}/>
-                        <MdAddCircle className="add-icon" size="1.3em" onClick={() => {createGroup(); addStudentToGroup(grupId+1)}}></MdAddCircle>
+                        <MdAddCircle className="add-icon" size="1.3em" onClick={() => {createGroup(); addStudentToGroup(grupId++)}}></MdAddCircle>
                     </div>
                     <div className="groups-list-content">
                         <ul className="items-list">

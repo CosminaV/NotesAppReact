@@ -136,7 +136,7 @@ router.route('/deleteGroup/:id').delete(async (req,res)=>{
         const grup = await Group.findByPk(req.params.id);
         if(grup){
             await grup.destroy();
-            res.status(400).json({status: "grup was deleted"});
+            res.status(200).json({status: "grup was deleted"});
         }
         else{
             res.status(400).status({status: "grup was not found"});

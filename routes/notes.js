@@ -203,7 +203,7 @@ router.route("/students/:studentId/deleteNote/:id").delete(async (req, res) => {
             console.log(note);
             if(note){
                 await note.destroy();
-                res.status(400).json({status: "note was deleted"});
+                res.status(200).json({status: "note was deleted"});
             }
             else{
                 res.status(400).status({status: "note was not found"});

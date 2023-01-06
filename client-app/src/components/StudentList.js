@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import Student from "./Student";
 import StudentForm from "./StudentForm";
 
-
 const SERVER = 'http://localhost:8080/api';
 
 function StudentList(){

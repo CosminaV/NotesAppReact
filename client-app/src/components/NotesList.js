@@ -17,6 +17,7 @@ function NotesList() {
     const [searchTag, setSearchTag] = useState('');
     const navigate = useNavigate();
     const [buttonPopup, setButtonPopup] = useState(false);
+    const [butonEdit, setButonEdit] = useState(false);
 
     const getMyNotes = async () => {
         const response = await fetch(`${SERVER}/students/${id}/notes`);
@@ -57,7 +58,7 @@ function NotesList() {
     }
     
     const editNote = async (noteId, note) => {
-        setEditNoteId(noteId);
+        setEditNoteId(noteId)
         const response = await fetch(`${SERVER}/modifyNote/${noteId}`, {
             method:"PUT",
             headers: {
@@ -85,30 +86,34 @@ function NotesList() {
     }, [])
 
 
-    return(
+    return (
         <div className="notes-container">
             <Search onSearchNote={setSearchText} onSearchTag={setSearchTag}/>
             <div className="notes-list">
             {
                 notes.filter((note) => {return note.description.toLowerCase().includes(searchText) && note.tag.includes(searchTag)})
                 //.filter((note) => note.tag === searchTag)
-                .map(e => (
-                    // <Fragment>
-                    //     {editNoteId === e.id ? (
-                    //         <EditNote key={e.id} item={e} onEdit={editNote}/>
-                    //     ) : (
-                    //         <Note key={e.id} item={e} onDelete={deleteNote} />
-                    //     )}
-                    // </Fragment>
-                    <Note key={e.id} item={e} onDelete={deleteNote} />
-                ) )
+                // .map(e => (butonEdit===true) ? (
+                //     // <Fragment>
+                //     //     {editNoteId === e.id ? (
+                //     //         <EditNote key={e.id} item={e} onEdit={editNote} />
+                //     //     ) : (
+                //     //         <Note key={e.id} item={e} onDelete={deleteNote} />
+                //     //     )}
+                //     // </Fragment>
+                //     <EditNote key={e.id} item={e} onEdit={editNote} btn={butonEdit} setBtn={setButonEdit} />
+                    
+                // ) : <Note key={e.id} item={e} onDelete={deleteNote} btn={butonEdit} setBtn={setButonEdit} /> )
+                .map(e => {if(butonEdit===true){
+                    return <EditNote key={e.id} item={e} onEdit={editNote} btn={butonEdit} setBtn={setButonEdit} />
+                } else { return <Note key={e.id} item={e} onDelete={deleteNote} btn={butonEdit} setBtn={setButonEdit} /> }})
             }
             <NoteForm onAdd={addNote} />
             </div>
             <button className="groups-button" onClick={() => setButtonPopup(true)} /*onClick={() => navigate(`/students/${id}/groups`) }*/>
                 See your groups
             </button>
-            <GroupsList trigger={buttonPopup} setTrigger={setButtonPopup}></GroupsList>
+            <GroupsList studentId={id} trigger={buttonPopup} setTrigger={setButtonPopup}></GroupsList>
         </div>
         
     )

@@ -1,7 +1,8 @@
 import { useState } from "react";
+import Note from "./Note";
 
 function EditNote(props) {
-    const [item, onEdit] = props;
+    const {item, onEdit, btn, setBtn} = props;
     const [description, setDescription] = useState(item.description);
     const [subject, setSubject] = useState(item.subject);
     const [tag, setTag] = useState(item.tag);
@@ -15,8 +16,9 @@ function EditNote(props) {
             tag
         })
     }
-    return (
-        <div className="note">
+
+    return  (
+        <div className="note edit">
             <div className="note-header">
                 <div className="description">
                     <textarea rows="12" value={description} onChange={(evt) => setDescription(evt.target.value)}></textarea>
@@ -24,10 +26,10 @@ function EditNote(props) {
             </div>
             <div className="note-footer">
                 <textarea rows="1" value={subject} onChange={(evt) => setSubject(evt.target.value)}></textarea>
-                <button className="save-button" onClick={editNote}>Save</button>
+                <button className="save-button" onClick={() => {editNote(); setBtn(false);} }>Save</button>
             </div>
         </div>
-    )
+    ) 
 }
 
 export default EditNote;
