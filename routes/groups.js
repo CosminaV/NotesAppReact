@@ -54,7 +54,7 @@ router.route('/groups/:groupId/students/:studentId').post(async(req,res)=>{
     }
 });
 
-//obtine tot studentii dintr-un grup de studenti
+//obtine toti studentii dintr-un grup de studenti
 router.route('/groups/:groupId/students').get(async(req,res)=>{
     try{
         const groups = await Group.findByPk(req.params.groupId);

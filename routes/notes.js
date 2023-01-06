@@ -45,6 +45,48 @@ router.route('/getNotes').get(async (req, res)=>{
     }
 });
 
+router.route('/getNotes/:description').get(async (req,res) => {
+    try{
+        const notes = await Note.findAll();
+        const notes2 = [];
+        for(let n of notes){
+            if(n.description.toLowerCase().includes(req.params.description)){
+                notes2.push(n);
+            }
+        }
+        if(notes2 != null){
+            res.status(200).json(notes2);
+        }
+        else{
+            res.status(400).json({error: `Notes with description ${req.params.description} are not found`});
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
+router.route('/getNotes/:tag').get(async (req,res) => {
+    try{
+        const notes = await Note.findAll();
+        const notes2 = [];
+        for(let n of notes){
+            if(n.tag == req.params.tag){
+                notes2.push(n);
+            }
+        }
+        if(notes2 != null){
+            res.status(200).json(notes2);
+        }
+        else{
+            res.status(400).json({error: `Notes with tag ${req.params.tag} are not found`});
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
 //adauga o notita
 router.route('/addNote').post(async (req, res)=>{
     try{
@@ -94,6 +136,35 @@ router.route('/students/:studentId/notes').get(async(req, res)=>{
     }
 })
 
+router.route('/students/:studentId/notes/:description').get(async(req, res)=>{
+    try{
+        const student = await Student.findByPk(req.params.studentId,{
+            include: [Note]
+        });
+        if (student){
+            const notes = student.Notes;
+            const notes2 = [];
+            for(let n of notes){
+                if(n.description.toLowerCase().includes(req.params.description)){
+                    notes2.push(n);
+                }
+            }
+            if(notes2 != null){
+                res.status(200).json(notes2);
+            }
+            else{
+                res.status(400).json({error: `Notes with description ${req.params.description} are not found`});
+            }
+        }
+        else{
+            res.status(400).json({error: `Student with id ${req.params.studentId} not found`})
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
 //update la o notita
 router.route('/modifyNote/:id').put(async (req,res)=>{
     try{
@@ -113,17 +184,30 @@ router.route('/modifyNote/:id').put(async (req,res)=>{
 
 //sterge o notita
 router.route('/deleteNote/:id').delete(async (req,res)=>{
+    // try{
+    //     Note.destroy({
+    //         where : {id:req.params.id}
+    //     }).then((rows) => {
+    //         if(rows == 1){
+    //             res.status(400).json({status: "note was deleted"});
+    //         }
+    //         else{
+    //             res.status(400).status({status: "note was not found"});
+    //         }
+    //     })
+    // }
+    // catch(error){
+    //     res.status(500).json(error);
+    // }
     try{
-        Note.destroy({
-            where : {id:req.params.id}
-        }).then((rows) => {
-            if(rows == 1){
-                res.status(400).json({status: "note was deleted"});
-            }
-            else{
-                res.status(400).status({status: "note was not found"});
-            }
-        })
+        const note = Note.findByPk(req.params.id);
+        if(note){
+            await note.destroy();
+            res.status(400).json({status: "note was deleted"});
+        }
+        else{
+            res.status(400).status({status: "note was not found"});
+        }
     }
     catch(error){
         res.status(500).json(error);

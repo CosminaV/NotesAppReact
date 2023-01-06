@@ -8,7 +8,7 @@ const routerGroup = require('./routes/groups');
 
 require("dotenv").config();
 
-const sequelize = require("sequelize");
+const sequelize = require("./sequelize");
 require("./models/note");
 require("./models/student");
 require("./models/attachment");
@@ -33,7 +33,7 @@ app.set("port", process.env.PORT || 8080)
 app.listen(app.get("port"), async () => {
     console.log(`Server is running on http://localhost:${app.get("port")}`);
     try{
-        await Sequelize.authenticate();
+        await sequelize.authenticate();
         console.log("Connected");
     }
     catch (error){
