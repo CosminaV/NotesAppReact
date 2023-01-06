@@ -136,6 +136,35 @@ router.route('/students/:studentId/notes').get(async(req, res)=>{
     }
 })
 
+router.route('/students/:studentId/notes/:tag').get(async(req, res)=>{
+    try{
+        const student = await Student.findByPk(req.params.studentId, {
+            include: [Note]
+        });
+        if (student){
+            const notes = student.Notes;
+            const notes2 = [];
+            for(let n of notes){
+                if(n.tag.toLowerCase().includes(req.params.tag)){
+                    notes2.push(n);
+                }
+            }
+            if(notes2 != null){
+                res.status(200).json(notes2);
+            }
+            else{
+                res.status(400).json({error: `Notes with tag ${req.params.tag} are not found`});
+            }
+        }
+        else{
+            res.status(400).json({error: `Student with id ${req.params.studentId} not found`})
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
 router.route('/students/:studentId/notes/:description').get(async(req, res)=>{
     try{
         const student = await Student.findByPk(req.params.studentId,{

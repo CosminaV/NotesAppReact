@@ -9,7 +9,7 @@ Group.belongsToMany(Student, {through:"StudentGroups"});
 Group.belongsToMany(Note, {through:"NoteGroups"});
 
 //ruta pt get
-router.route('/getGroups').get(async (req,res) => {
+router.route('/getGroups').get(async (req, res) => {
     try{
         const groups = await Group.findAll();
         res.status(200).json(groups);
@@ -53,6 +53,7 @@ router.route('/groups/:groupId/students/:studentId').post(async(req,res)=>{
         res.status(500).json(error);
     }
 });
+
 
 //obtine toti studentii dintr-un grup de studenti
 router.route('/groups/:groupId/students').get(async(req,res)=>{

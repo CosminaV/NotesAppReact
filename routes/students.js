@@ -31,4 +31,26 @@ router.route('/addStudent').post(async (req,res)=>{
     }
 });
 
+//obtine grupurile unui student cu un anume id
+router.route('/students/:studentId/groups').get(async (req, res) => {
+    try{
+        const student = await Student.findByPk(req.params.studentId);
+        if(student){
+            const groups = await student.getGroups({attributes: ['id']});
+            if(groups.length > 0){
+                res.status(200).json(groups);
+            }
+            else{
+                res.status(400).json({error: "this student doesn't have groups"});
+            }
+        }
+        else{
+            res.status(400).json({error: `Student with id ${req.params.studentId} not found`});
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
 module.exports = router;

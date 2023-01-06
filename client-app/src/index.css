@@ -40,7 +40,7 @@ textarea:focus {
   outline: none;
 }
 
-.save-button {
+.save-button, .groups-button, .close-button {
   background-color: #e1e1e1;
   border:none;
   border-radius: 15px;
@@ -98,3 +98,38 @@ textarea:focus {
   margin-bottom: 1.3em;
 }
 
+.groups-button:hover {
+  background-color: #ededed;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  background-color: #ededed;
+  cursor: pointer;
+}
+
+.groups-list-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-inner {
+  position: relative;
+  padding: 32px;
+  width: 100%;
+  max-width: 640px;
+  background-color: rgb(255,255,255);
+}
+
+.popup-inner .close-button {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}

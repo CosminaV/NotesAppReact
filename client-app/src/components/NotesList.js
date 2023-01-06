@@ -5,8 +5,10 @@ import NoteForm from "./NoteForm";
 import EditNote from "./EditNote";
 import Search from "./Search";
 import {useNavigate} from "react-router-dom";
+import GroupsList from "./GroupsList";
 
 const SERVER = 'http://localhost:8080/api';
+
 function NotesList() {
     const [notes, setNotes] = useState([]);
     const {id} = useParams();
@@ -14,7 +16,8 @@ function NotesList() {
     const [searchText, setSearchText] = useState('');
     const [searchTag, setSearchTag] = useState('');
     const navigate = useNavigate();
-    
+    const [buttonPopup, setButtonPopup] = useState(false);
+
     const getMyNotes = async () => {
         const response = await fetch(`${SERVER}/students/${id}/notes`);
         if (!response.ok) {
@@ -102,11 +105,13 @@ function NotesList() {
                     // </Fragment>
                     <Note key={e.id} item={e} onDelete={deleteNote} />
                 ) )
-                
             }
             <NoteForm onAdd={addNote} />
             </div>
-            <button className="groups-button" onClick={() => navigate(`students/${id}/groups`) }>See your groups</button>
+            <button className="groups-button" onClick={() => setButtonPopup(true)} /*onClick={() => navigate(`/students/${id}/groups`) }*/>
+                See your groups
+            </button>
+            <GroupsList trigger={buttonPopup} setTrigger={setButtonPopup}></GroupsList>
         </div>
         
     )
