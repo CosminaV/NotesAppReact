@@ -54,7 +54,6 @@ router.route('/groups/:groupId/students/:studentId').post(async(req,res)=>{
     }
 });
 
-
 //obtine toti studentii dintr-un grup de studenti
 router.route('/groups/:groupId/students').get(async(req,res)=>{
     try{
@@ -130,5 +129,22 @@ router.route('/groups/:groupId/notes').get(async(req, res)=>{
         res.status(500).json(error);
     }
 });
+
+//sterge grup
+router.route('/deleteGroup/:id').delete(async (req,res)=>{
+    try{
+        const grup = await Group.findByPk(req.params.id);
+        if(grup){
+            await grup.destroy();
+            res.status(400).json({status: "grup was deleted"});
+        }
+        else{
+            res.status(400).status({status: "grup was not found"});
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
 
 module.exports = router;

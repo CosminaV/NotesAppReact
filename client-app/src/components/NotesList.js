@@ -45,14 +45,11 @@ function NotesList() {
     //     getMyNotes();
     // }
 
-    const deleteNote = async(noteId) => {
+    const deleteNote = async (note_id) => {
         try {
-            const response = await fetch(`${SERVER}/deleteNote/${noteId}`, {
+            await fetch(`${SERVER}/students/${id}/deleteNote/${note_id}`, {
                 method: 'DELETE'
             })
-            if (!response.ok) {
-                throw response
-            }
             getMyNotes()
         } catch (err) {
            console.warn(err);
@@ -89,7 +86,7 @@ function NotesList() {
 
 
     return(
-        <div>
+        <div className="notes-container">
             <Search onSearchNote={setSearchText} onSearchTag={setSearchTag}/>
             <div className="notes-list">
             {

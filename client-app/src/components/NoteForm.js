@@ -21,7 +21,6 @@ function NoteForm(props) {
                     subject,
                     date,
                     tag})
-            
             setDescription('');
             setSubject('');
             setTag('CURS'); 
@@ -32,7 +31,6 @@ function NoteForm(props) {
         else if(subject === ""){
             alert("You didn't type the subject of your note!")
         }
-    
     }
 
     return (

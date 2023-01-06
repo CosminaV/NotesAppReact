@@ -53,4 +53,21 @@ router.route('/students/:studentId/groups').get(async (req, res) => {
     }
 })
 
+//sterge student
+router.route('/deleteStudent/:id').delete(async (req,res)=>{
+    try{
+        const student = await Student.findByPk(req.params.id);
+        if(student){
+            await student.destroy();
+            res.status(400).json({status: "student was deleted"});
+        }
+        else{
+            res.status(400).status({status: "student was not found"});
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
 module.exports = router;

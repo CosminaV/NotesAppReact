@@ -194,6 +194,31 @@ router.route('/students/:studentId/notes/:description').get(async(req, res)=>{
     }
 })
 
+router.route("/students/:studentId/deleteNote/:id").delete(async (req, res) => {
+    try{
+        const student = await Student.findByPk(req.params.studentId);
+        if (student){
+            let notes = student.Notes;
+            let note = await Note.findByPk(req.params.id);
+            console.log(note);
+            if(note){
+                await note.destroy();
+                res.status(400).json({status: "note was deleted"});
+            }
+            else{
+                res.status(400).status({status: "note was not found"});
+            }
+        }
+        else{
+            res.status(400).json({error: `Student with id ${req.params.studentId} not found`})
+        }
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json(error);
+    }
+})
+
 //update la o notita
 router.route('/modifyNote/:id').put(async (req,res)=>{
     try{
@@ -212,7 +237,7 @@ router.route('/modifyNote/:id').put(async (req,res)=>{
 });
 
 //sterge o notita
-router.route('/deleteNote/:id').delete(async (req,res)=>{
+router.route('/deleteNote/:noteId').delete(async (req,res)=>{
     // try{
     //     Note.destroy({
     //         where : {id:req.params.id}
@@ -229,7 +254,7 @@ router.route('/deleteNote/:id').delete(async (req,res)=>{
     //     res.status(500).json(error);
     // }
     try{
-        const note = Note.findByPk(req.params.id);
+        const note = await Note.findByPk(req.params.noteId);
         if(note){
             await note.destroy();
             res.status(400).json({status: "note was deleted"});
