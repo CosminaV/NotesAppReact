@@ -30,7 +30,8 @@ function FirstPage() {
                         students.forEach(s => {if(s.email === email){
                             id_stud=s.id;
                         }});
-                        navigate(`/students/${id_stud}/notes`);
+                        //navigate(`/students/${id_stud}/notes`);
+                        navigate(`/myPage/${id_stud}`);
                     }
                     else{
                         alert("Email format is not correct! It should end with `@stud.ase.ro`.");

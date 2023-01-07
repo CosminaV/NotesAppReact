@@ -53,13 +53,48 @@ router.route('/students/:studentId/groups').get(async (req, res) => {
     }
 })
 
+//obtine studentii dintr-un grup cu un anume id din care face parte un student cu un anume id
+router.route('/students/:studentId/groups/:groupId/students').get(async (req, res) => {
+    try{
+        const student = await Student.findByPk(req.params.studentId);
+        if(student){
+            const groups = await student.getGroups({attributes: ['id']});
+            if(groups){
+                const group = await Group.findByPk(req.params.groupId);
+                if(group){
+                    const students = await group.getStudents({attributes: ['id','nume']});
+                    if(students.length > 0){
+                        res.status(200).json(students);
+                    }
+                    else{
+                        res.status(404).json({error: `group with id ${req.params.groupId} doesn't have students`});
+                    }
+                }
+                else{
+                    res.status(400).json({error: `group with id ${req.params.groupId} not found`});
+                }
+            }
+            else{
+                res.status(400).json({error: `student with id ${req.params.studentId} doesn't have groups`})
+            }
+        }
+        else{
+            res.status(400).json({error: `Student with id ${req.params.studentId} not found`});
+        }
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json(error);
+    }
+});
+
 //sterge student
 router.route('/deleteStudent/:id').delete(async (req,res)=>{
     try{
         const student = await Student.findByPk(req.params.id);
         if(student){
             await student.destroy();
-            res.status(400).json({status: "student was deleted"});
+            res.status(200).json({status: "student was deleted"});
         }
         else{
             res.status(400).status({status: "student was not found"});

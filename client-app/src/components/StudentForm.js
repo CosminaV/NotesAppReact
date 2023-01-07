@@ -52,7 +52,7 @@ function StudentForm(props) {
                 }
                     
                 })}}>
-                    <option key={""} value={""}></option>
+                    <option key={""} value={""}>Name</option>
                     {
                         studentiRamasi.map((s) => <option key={s.nume} value={s.nume}>{s.nume}</option>)
                     }

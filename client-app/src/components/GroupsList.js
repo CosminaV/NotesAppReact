@@ -86,7 +86,7 @@ function GroupsList(props){
                         </ul>
                         <ul className="buttons-list">
                             { groups.map((item) => <li key={item.id}>
-                                <button className="see-students-button" onClick={() => navigate(`/groups/${item.id}/students`)}>See students</button>
+                                <button className="see-students-button" onClick={() => navigate(`/students/${id}/groups/${item.id}/students`)}>See students</button>
                                 </li>) }
                         </ul>
                     </div>

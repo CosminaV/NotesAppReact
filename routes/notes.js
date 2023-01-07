@@ -136,6 +136,24 @@ router.route('/students/:studentId/notes').get(async(req, res)=>{
     }
 })
 
+//var 2
+router.route('/Students/:Id/notes').get(async(req, res)=>{
+    try{
+        const student = await Student.findByPk(req.params.Id,{
+            include: [Note]
+        });
+        if (student){
+            res.status(200).json(student.Notes) // Tasks tot cu T, tabela e cu T mare si creeaza automat Tasks tot cu T
+        }
+        else{
+            res.status(400).json({error: `Student with id ${req.params.Id} not found`})
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
 router.route('/students/:studentId/notes/:tag').get(async(req, res)=>{
     try{
         const student = await Student.findByPk(req.params.studentId, {

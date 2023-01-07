@@ -85,6 +85,7 @@ textarea:focus {
 .search {
   display: flex;
   align-items: center;
+  
 }
 
 .search input {
@@ -115,6 +116,7 @@ textarea:focus {
   border-radius: 10px;
   padding: 5px;
   margin-bottom: 1.3em;
+  margin-top: 20px;
 }
 
 .popup-inner {
@@ -196,6 +198,10 @@ textarea:focus {
   white-space: pre-wrap;
 }
 
+.student.curent {
+  background-color: #bf7c7c;
+}
+
 .student-header, .student-footer {
   display: flex;
   align-items:stretch;
@@ -210,6 +216,19 @@ textarea:focus {
 }
 
 .student-footer .see-notes-button:hover {
+  background-color: rgb(0, 0, 0);
+  cursor: pointer;
+  color: #fff;
+}
+
+.student.curent .student-footer .share-notes-button {
+  background-color: #bf7c7c;
+  border:none;
+  border-radius: 15px;
+  padding: 5px 10px 5px 10px;
+}
+
+.student.curent .student-footer .share-notes-button:hover {
   background-color: rgb(0, 0, 0);
   cursor: pointer;
   color: #fff;

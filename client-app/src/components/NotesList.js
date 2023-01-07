@@ -3,18 +3,18 @@ import { useParams } from "react-router-dom";
 import Note from "./Note";
 import NoteForm from "./NoteForm";
 import EditNote from "./EditNote";
-import Search from "./Search";
 import {useNavigate} from "react-router-dom";
 import GroupsList from "./GroupsList";
 
 const SERVER = 'http://localhost:8080/api';
 
-function NotesList() {
+function NotesList(props) {
+    const {searchedText, searchedTag} = props;
     const [notes, setNotes] = useState([]);
     const {id} = useParams();
     const [editNoteId, setEditNoteId] = useState(null);
-    const [searchText, setSearchText] = useState('');
-    const [searchTag, setSearchTag] = useState('');
+    // const [searchText, setSearchText] = useState('');
+    // const [searchTag, setSearchTag] = useState('');
     const navigate = useNavigate();
     const [buttonPopup, setButtonPopup] = useState(false);
     const [butonEdit, setButonEdit] = useState(false);
@@ -73,7 +73,7 @@ function NotesList() {
     }
 
     const searchNotes = async () => {
-        const response = await fetch(`${SERVER}/students/${id}/notes/${searchText}`);
+        const response = await fetch(`${SERVER}/students/${id}/notes/${searchedText}`);
         if (!response.ok) {
             throw response
         }
@@ -85,13 +85,12 @@ function NotesList() {
         getMyNotes()
     }, [])
 
-
-    return (
+    return  (
         <div className="notes-container">
-            <Search onSearchNote={setSearchText} onSearchTag={setSearchTag}/>
+            {/* <Search onSearchNote={setSearchText} onSearchTag={setSearchTag}/> */}
             <div className="notes-list">
-            {
-                notes.filter((note) => {return note.description.toLowerCase().includes(searchText) && note.tag.includes(searchTag)})
+            {  
+                notes.filter((note) => {return note.description.toLowerCase().includes(searchedText) && note.tag.includes(searchedTag)})
                 //.filter((note) => note.tag === searchTag)
                 // .map(e => (butonEdit===true) ? (
                 //     // <Fragment>
@@ -116,7 +115,7 @@ function NotesList() {
             <GroupsList studentId={id} trigger={buttonPopup} setTrigger={setButtonPopup}></GroupsList>
         </div>
         
-    )
+    ) 
 }
 
 export default NotesList;
