@@ -5,19 +5,20 @@ import NoteForm from "./NoteForm";
 import EditNote from "./EditNote";
 import {useNavigate} from "react-router-dom";
 import GroupsList from "./GroupsList";
+import SimpleNote from "./SimpleNote";
 
 const SERVER = 'http://localhost:8080/api';
+let elementValue;
 
 function NotesList(props) {
-    const {searchedText, searchedTag} = props;
+    const {searchedText, searchedTag, studentId} = props;
     const [notes, setNotes] = useState([]);
     const {id} = useParams();
     const [editNoteId, setEditNoteId] = useState(null);
     // const [searchText, setSearchText] = useState('');
     // const [searchTag, setSearchTag] = useState('');
-    const navigate = useNavigate();
     const [buttonPopup, setButtonPopup] = useState(false);
-    const [butonEdit, setButonEdit] = useState(false);
+    const [butonEdit, setButonEdit] = useState(true);
 
     const getMyNotes = async () => {
         const response = await fetch(`${SERVER}/students/${id}/notes`);
@@ -85,35 +86,43 @@ function NotesList(props) {
         getMyNotes()
     }, [])
 
-    return  (
-        <div className="notes-container">
-            {/* <Search onSearchNote={setSearchText} onSearchTag={setSearchTag}/> */}
-            <div className="notes-list">
-            {  
-                notes.filter((note) => {return note.description.toLowerCase().includes(searchedText) && note.tag.includes(searchedTag)})
-                //.filter((note) => note.tag === searchTag)
-                // .map(e => (butonEdit===true) ? (
-                //     // <Fragment>
-                //     //     {editNoteId === e.id ? (
-                //     //         <EditNote key={e.id} item={e} onEdit={editNote} />
-                //     //     ) : (
-                //     //         <Note key={e.id} item={e} onDelete={deleteNote} />
-                //     //     )}
-                //     // </Fragment>
-                //     <EditNote key={e.id} item={e} onEdit={editNote} btn={butonEdit} setBtn={setButonEdit} />
-                    
-                // ) : <Note key={e.id} item={e} onDelete={deleteNote} btn={butonEdit} setBtn={setButonEdit} /> )
-                .map(e => {if(butonEdit===true){
-                    return <EditNote key={e.id} item={e} onEdit={editNote} btn={butonEdit} setBtn={setButonEdit} />
-                } else { return <Note key={e.id} item={e} onDelete={deleteNote} btn={butonEdit} setBtn={setButonEdit} /> }})
-            }
-            <NoteForm onAdd={addNote} />
-            </div>
-            <button className="groups-button" onClick={() => setButtonPopup(true)} /*onClick={() => navigate(`/students/${id}/groups`) }*/>
-                See your groups
-            </button>
-            <GroupsList studentId={id} trigger={buttonPopup} setTrigger={setButtonPopup}></GroupsList>
+    const firstId = localStorage.getItem("id_stud");
+    if(firstId === id){
+        elementValue = <div className="notes-container">
+                <div className="notes-list">
+                    {
+                        notes.filter((note) => {return note.description.toLowerCase().includes(searchedText) && note.tag.includes(searchedTag)})
+                        .map(e =>  { return <Note key={e.id} item={e} onDelete={deleteNote} onEdit={editNote} btn={butonEdit} setBtn={setButonEdit}/> })
+                    }
+                    <NoteForm onAdd={addNote} />
+                </div>
+                <button className="groups-button" onClick={() => setButtonPopup(true)} /*onClick={() => navigate(`/students/${id}/groups`) }*/>
+                See your groups</button>
+                <GroupsList trigger={buttonPopup} setTrigger={setButtonPopup}></GroupsList>
         </div>
+    }
+    else {
+        if (notes && notes.length > 0) {
+            elementValue = 
+                    <div className="notes-list">
+                        {
+                            notes.map((note) => <SimpleNote key={note.id} item={note}/>)
+                        }
+                    </div>
+           
+        }
+        else if (notes.length === 0){
+            elementValue = 
+                <div className="notes-list">
+                    <h2>There are no notes yet</h2>
+                </div>
+           
+        }
+    }
+    return (
+        <>
+        {elementValue}
+        </>
         
     ) 
 }

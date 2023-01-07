@@ -9,7 +9,7 @@ const SERVER = 'http://localhost:8080/api';
 function StudentList(){
     const {id, studentId} = useParams();
     const [students, setStudents] = useState([]);
-
+    
     const getStudents = async () => {
         const response = await fetch(`${SERVER}/students/${studentId}/groups/${id}/students`);
         if (!response.ok) {

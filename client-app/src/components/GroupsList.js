@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 const SERVER = 'http://localhost:8080/api';
 
 function GroupsList(props){
-    const {trigger, setTrigger, studentId} = props;
+    const {trigger, setTrigger} = props;
     const {id} = useParams();
     const [groups, setGroups] = useState([]);
     const navigate = useNavigate();

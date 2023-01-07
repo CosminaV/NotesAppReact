@@ -2,14 +2,14 @@ import { useState } from "react";
 import Note from "./Note";
 
 function EditNote(props) {
-    const {item, onEdit, btn, setBtn} = props;
+    const {item, onEdit2, btn2, setBtn2, id_notita, setIdNotita} = props;
     const [description, setDescription] = useState(item.description);
     const [subject, setSubject] = useState(item.subject);
     const [tag, setTag] = useState(item.tag);
     let date = new Date().toJSON();
     
     const editNote = () => {
-        onEdit(item.id, {
+        onEdit2(item.id, {
             description,
             subject,
             date,
@@ -26,7 +26,7 @@ function EditNote(props) {
             </div>
             <div className="note-footer">
                 <textarea rows="1" value={subject} onChange={(evt) => setSubject(evt.target.value)}></textarea>
-                <button className="save-button" onClick={() => {editNote(); setBtn(false);} }>Save</button>
+                <button className="save-button" onClick={() => {editNote(); setBtn2(false)} }>Save</button>
             </div>
         </div>
     ) 

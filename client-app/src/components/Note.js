@@ -4,10 +4,11 @@ import EditNote from "./EditNote";
 import NoteForm from "./NoteForm";
 
 const SERVER = 'http://localhost:8080/api';
+let elementValue;
 
 function Note(props){
-    const {item, onDelete, setBtn} = props;
-    let {btn} = props;
+    const {item, onDelete, btn,setBtn, onEdit} = props;
+
     // const [description, setDescription] = useState(item.description);
     // const [subject, setSubject] = useState(item.subject);
     // const [tag, setTag] = useState(item.tag);
@@ -20,35 +21,67 @@ function Note(props){
     //     setIsEditing(true);
     // }
 
-    const editNote = async (noteId, note) => {
-        const response = await fetch(`${SERVER}/modifyNote/${noteId}`, {
-            method:"PUT",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(note)
+    console.log(btn)
+    const [description, setDescription] = useState(item.description);
+    const [subject, setSubject] = useState(item.subject);
+    const [tag, setTag] = useState(item.tag);
+    let date = new Date().toJSON();
+
+    const editNote = () => {
+        onEdit(item.id, {
+            description,
+            subject,
+            date,
+            tag
         })
-        if (!response.ok) {
-            throw response
-        }
-      
     }
 
-    console.log(btn)
+    if(btn===true){
+        elementValue = <div className="note">
+        <div className="note-header">
+            <div className="description">
+                {item.description}
+            </div>
+        </div>
+        <div className="note-footer">
+            <small>{item.subject}</small>
+            <div className="icons">
+                <MdDeleteForever onClick={deleteNote} className="delete-icon" size="1.3em" />
+                <MdEditNote onClick={() => {setBtn(false)}} className="edit-icon" size="1.3em"/>
+            </div>
+        </div>
+    </div>
+    }
+    else if(btn===false){
+        elementValue = <div className="note edit">
+        <div className="note-header">
+            <div className="description">
+                <textarea rows="12" value={description} onChange={(evt) => setDescription(evt.target.value)}></textarea>
+            </div>
+        </div>
+        <div className="note-footer">
+            <textarea rows="1" value={subject} onChange={(evt) => setSubject(evt.target.value)}></textarea>
+            <button className="save-button" onClick={() => {editNote(); setBtn(true)} }>Save</button>
+        </div>
+    </div>
+    }
     return (
-        <div className="note">
-            <div className="note-header">
-                <div className="description">
-                    {item.description}
-                </div>
-            </div>
-            <div className="note-footer">
-                <small>{item.subject}</small>
-                <div className="icons">
-                    <MdDeleteForever onClick={deleteNote} className="delete-icon" size="1.3em" />
-                    <MdEditNote onClick={() => setBtn(true)} className="edit-icon" size="1.3em"/>
-                </div>
-            </div>
+        // <div className="note">
+        //     <div className="note-header">
+        //         <div className="description">
+        //             {item.description}
+        //         </div>
+        //     </div>
+        //     <div className="note-footer">
+        //         <small>{item.subject}</small>
+        //         <div className="icons">
+        //             <MdDeleteForever onClick={deleteNote} className="delete-icon" size="1.3em" />
+        //             <MdEditNote onClick={() => {setBtn(true)}} className="edit-icon" size="1.3em"/>
+        //         </div>
+        //     </div>
+        // </div>
+        <div>
+            {elementValue}
         </div>
     ) 
 }
