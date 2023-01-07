@@ -8,6 +8,22 @@ const Group = require('../models/group');
 Student.hasMany(Note);
 Student.belongsToMany(Group, {through:"StudentGroups"});
 
+// find one student by email
+router.route('/getStudentByEmail/:email').get(async (req, res) => {
+    try{
+        const student = await Student.findOne({where: {email: req.params.email}});
+        if(student){
+            res.status(200).json(student);
+        }
+        else{
+            res.status(404).json({error: `Student with email ${req.params.email} not found`});
+        }
+    }
+    catch(error){
+        res.status(500).json(error);
+    }
+})
+
 //ruta pt get
 router.route('/getStudents').get(async (req,res) => {
     try{
