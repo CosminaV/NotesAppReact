@@ -20,8 +20,55 @@ code {
   padding-left: 15px;
 }
 
+.authentification-form {
+  background-color: #1c1c1c;
+  width:300px;
+  align-items: center;
+  min-height: 170px;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 15px;
+  margin: 12% auto;
+  padding: 50px 10px;
+  box-shadow: 0 0 20px 2px rgba(0,0,0,0.5);
+}
+
+.authentification-form h2 {
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.authentification-form .input-email {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.authentification-form .input-email .email-icon {
+  color: rgb(179, 172, 172);
+}
+
+.authentification-form input[type="text"] {
+  padding:7px;
+  background-color: #373535;
+  border-radius: 8px;
+  color: rgb(179, 172, 172);
+  outline: none;
+}
+
+.authentification-form input[type="text"]::placeholder {
+  color: rgb(179, 172, 172);
+}
+
+.authentification-form .login-button {
+  margin-top: 20px;
+}
+
 .notes-container {
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .notes-list {
@@ -52,14 +99,14 @@ textarea:focus {
   outline: none;
 }
 
-.save-button, .groups-button, .close-button, .see-students-button {
+.save-button, .groups-button, .close-button, .see-students-button, .login-button {
   background-color: #e1e1e1;
   border:none;
   border-radius: 15px;
   padding: 5px 10px 5px 10px;
 }
 
-.save-button:hover, .groups-button:hover, .close-button:hover, .see-students-button:hover {
+.save-button:hover, .groups-button:hover, .close-button:hover, .see-students-button:hover, .login-button:hover {
   background-color: #ededed;
   cursor: pointer;
 }
@@ -207,6 +254,7 @@ textarea:focus {
 
 .students-list {
   margin-top: 20px;
+  margin-bottom: 20px;
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));

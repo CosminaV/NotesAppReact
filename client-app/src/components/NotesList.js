@@ -103,12 +103,13 @@ function NotesList(props) {
     }
     else {
         if (notes && notes.length > 0) {
-            elementValue = 
+            elementValue = <div className="notes-container">
                     <div className="notes-list">
                         {
                             notes.map((note) => <SimpleNote key={note.id} item={note}/>)
                         }
                     </div>
+                </div>
            
         }
         else if (notes.length === 0){
